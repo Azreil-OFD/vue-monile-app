@@ -8,10 +8,19 @@
 	</div>
 </template>
   
-<script setup>
+<script>
 import { ref, computed } from "vue"
 import ModalRasp from "./ModalRasp.vue";
-const Schedule = `
+
+export default {
+	props: {
+
+	},
+	components: {
+		ModalRasp
+	},
+	setup(props) {
+		const Schedule1 = `
 <m:return>
 				<m:Tab>
 					<m:UF_ID_TEACHER>Козырева Вера Варисовна</m:UF_ID_TEACHER>
@@ -375,81 +384,86 @@ const Schedule = `
 				</m:Tab>
 			</m:return>
 `
+		const parser = new DOMParser();
 
-const parser = new DOMParser();
-const xml = parser.parseFromString(Schedule, "text/xml");
+		var Schedule = Schedule1;
 
-const tabs = [];
+		const xml = parser.parseFromString(Schedule, "text/xml");
+		// Parse XML
+		const tabs = parseScheduleXml(xml)
 
-const tabElements = xml.getElementsByTagName("m:Tab");
-let count = 0;
-for (let i = 0; i < tabElements.length; i++) {
+		// Organize tabs by day of week
+		const datas = organizeTabsByDay(tabs)
 
-	const tab = tabElements[i];
-	const teacher = tab.getElementsByTagName("m:UF_ID_TEACHER")[0].textContent;
-	const group = tab.getElementsByTagName("m:UF_ID_GROUP")[0].textContent;
-	const subject = tab.getElementsByTagName("m:UF_ID_SUBJECT")[0].textContent;
-	const para = tab.getElementsByTagName("m:UF_PARA")[0].textContent;
-	const lecture = tab.getElementsByTagName("m:UF_LECTURE")[0].textContent;
-	const zone = tab.getElementsByTagName("m:UF_ZONE")[0].textContent;
-	const date = tab.getElementsByTagName("m:UF_DATE")[0].textContent;
-	const subset = tab.getElementsByTagName("m:UF_SUBSET")[0].textContent;
+		const days = computed(() =>
+			Object.keys(datas).map(key => ({
+				day: key,
+				schedule: datas[key]
+			}))
+		)
 
-	tabs.push({
-		count,
-		teacher,
-		group,
-		subject,
-		para,
-		lecture,
-		zone,
-		date,
-		subset
-	});
-	count++;
-}
+		function parseScheduleXml(xml) {
+			const tabs = [];
 
-const datas = {
-	0: [], // Воскресенье
-	1: [], // Понедельник
-	2: [], // Вторник
-	3: [], // Среда
-	4: [], // Четверг
-	5: [], // Пятница
-	6: []  // Суббота
-};
+			const tabElements = xml.getElementsByTagName("m:Tab");
+			for (let i = 0; i < tabElements.length; i++) {
 
+				const tab = tabElements[i];
+				const teacher = tab.getElementsByTagName("m:UF_ID_TEACHER")[0].textContent;
+				const group = tab.getElementsByTagName("m:UF_ID_GROUP")[0].textContent;
+				const subject = tab.getElementsByTagName("m:UF_ID_SUBJECT")[0].textContent;
+				const para = tab.getElementsByTagName("m:UF_PARA")[0].textContent;
+				const lecture = tab.getElementsByTagName("m:UF_LECTURE")[0].textContent;
+				const zone = tab.getElementsByTagName("m:UF_ZONE")[0].textContent;
+				const date = tab.getElementsByTagName("m:UF_DATE")[0].textContent;
+				const subset = tab.getElementsByTagName("m:UF_SUBSET")[0].textContent;
 
+				tabs.push({
+					teacher,
+					group,
+					subject,
+					para,
+					lecture,
+					zone,
+					date,
+					subset
+				});
+			}
 
-
-tabs.forEach(tab => {
-
-	const parts = tab.date.split(".");
-	const day = parts[0];
-	const month = parts[1] - 1; // Month is 0-indexed
-	const year = parts[2].split(" ")[0];
-	const time = parts[2].split(" ")[1];
-
-	const date = new Date(year, month, day, ...time.split(":"));
-
-	const dayOfWeek = date.getDay();
-
-	console.log(dayOfWeek);
-	datas[dayOfWeek].push(tab);
-});
-
-
-
-
-const data = ref(datas)
-const days = computed(() => {
-	return Object.keys(datas).map(key => {
-		return {
-			day: key,
-			schedule: datas[key]
+			return tabs
 		}
-	})
-})
+
+		function organizeTabsByDay(tabs) {
+			const datas = {
+				0: [], // Воскресенье
+				1: [], // Понедельник
+				2: [], // Вторник
+				3: [], // Среда
+				4: [], // Четверг
+				5: [], // Пятница
+				6: []  // Суббота}
+			}
+			tabs.forEach(tab => {
+				const parts = tab.date.split(".");
+				const day = parts[0];
+				const month = parts[1] - 1; // Month is 0-indexed
+				const year = parts[2].split(" ")[0];
+				const time = parts[2].split(" ")[1];
+
+				const date = new Date(year, month, day, ...time.split(":"));
+
+				const dayOfWeek = date.getDay();
+				datas[dayOfWeek].push(tab)
+			})
+
+			return datas
+		}
+
+		return {
+			days
+		}
+	}
+}
 </script>
   
 <style scoped></style>

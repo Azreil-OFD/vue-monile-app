@@ -96,7 +96,7 @@ export default {
         for (let key in props.day.schedule) {
             paraSort.value[para[props.day.schedule[key].para]].push(props.day.schedule[key])
         }
-        console.log(paraSort)
+
         function formatsubject(subject) {
             let result = "";
             subject = subject.trim()
