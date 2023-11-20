@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "markdown-it": "^13.0.2",
+    "node-fetch": "^3.3.2",
     "vue": "^3.3.8",
     "vue-markdown-render": "^2.1.1"
   },

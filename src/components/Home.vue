@@ -125,11 +125,6 @@ async function f() {
 </script>
 
 <template>
-  <header>
-    <div class="logo">Н&Э</div>
-    <input type="text" placeholder="Search activities..." v-model="search">
-  </header>
-
   <main>
     <section v-for="month in  Object.keys(groupByMonth(filteredActivities)) ">
 
@@ -176,7 +171,6 @@ const groupByMonth = (activities) => {
 body {
   font-family: Arial, sans-serif;
   font-family: 'M PLUS Rounded 1c', sans-serif;
-  padding-top: 10vh;
 }
 
 header {
