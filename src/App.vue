@@ -192,12 +192,12 @@ const mode = ref("События")
 }
 
 .blob-btn:hover .blob-btn__blob {
-  transform: translateZ(0) scale(1.7);
+  transform: translateZ(0) scale(1.1);
 }
 
 @supports (filter: url("#goo")) {
   .blob-btn:hover .blob-btn__blob {
-    transform: translateZ(0) scale(1.4);
+    transform: translateZ(0) scale(1.6);
   }
 }
 </style>
