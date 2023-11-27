@@ -6,6 +6,7 @@ export default defineConfig({
   base: "/vue-monile-app/",
   plugins: [vue()],
   server: {
+    host: "192.168.0.8",
     port: 5500,
   },
 });

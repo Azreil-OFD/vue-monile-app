@@ -1,18 +1,24 @@
 <script setup>
-import Home from './components/Home.vue'
-import Rasp from './components/Rasp.vue'
-import Assessments from './components/Assessments.vue';
-import { ref } from "vue"
+import Home from "./components/Home.vue";
+import Rasp from "./components/Rasp.vue";
+import Assessments from "./components/Assessments.vue";
+import { ref } from "vue";
 
-
-
-const mode = ref("События")
+const mode = ref("События");
 </script>
 
 <template>
-  <h1>{{ mode }}</h1>
+  <div class="header_top">
+    <h1>{{ mode }}</h1>
+    <h3>Иван Иванов ИС1.20</h3>
+  </div>
+
   <div class="buttons">
-    <button class="blob-btn " @click="mode = 'События'" :class="{ 'active': mode == 'События' }">
+    <button
+      class="blob-btn"
+      @click="mode = 'События'"
+      :class="{ active: mode == 'События' }"
+    >
       События
       <span class="blob-btn__inner">
         <span class="blob-btn__blobs">
@@ -23,7 +29,11 @@ const mode = ref("События")
         </span>
       </span>
     </button>
-    <button class="blob-btn " @click="mode = 'Расписание'" :class="{ 'active': mode == 'Расписание' }">
+    <button
+      class="blob-btn"
+      @click="mode = 'Расписание'"
+      :class="{ active: mode == 'Расписание' }"
+    >
       Расписание
       <span class="blob-btn__inner">
         <span class="blob-btn__blobs">
@@ -35,7 +45,11 @@ const mode = ref("События")
       </span>
     </button>
 
-    <button class="blob-btn " @click="mode = 'Оценки'" :class="{ 'active': mode == 'Оценки' }">
+    <button
+      class="blob-btn"
+      @click="mode = 'Оценки'"
+      :class="{ active: mode == 'Оценки' }"
+    >
       Оценки
       <span class="blob-btn__inner">
         <span class="blob-btn__blobs">
@@ -48,14 +62,22 @@ const mode = ref("События")
     </button>
   </div>
 
-
-
   <Home v-if="mode == 'События'"></Home>
   <Rasp v-if="mode == 'Расписание'"></Rasp>
   <Assessments v-if="mode == 'Оценки'"></Assessments>
 </template>
 
 <style scoped>
+.header_top {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header_top h3 {
+  border-bottom: 1px solid black;
+}
 .logo {
   height: 6em;
   padding: 1.5em;
@@ -68,7 +90,6 @@ const mode = ref("События")
   flex-direction: row;
   justify-content: space-between;
 }
-
 
 .buttons {
   text-align: center;
@@ -119,7 +140,7 @@ const mode = ref("События")
 }
 
 .blob-btn:hover {
-  color: #FFFFFF;
+  color: #ffffff;
   border-radius: 30px;
 }
 
@@ -165,7 +186,6 @@ const mode = ref("События")
     transform: translate3d(0, 150%, 0) scale(1.4);
   }
 }
-
 
 .blob-btn__blob:nth-child(1) {
   left: 0%;

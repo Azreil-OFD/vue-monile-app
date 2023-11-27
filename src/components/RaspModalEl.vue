@@ -1,7 +1,7 @@
 <template>
     <div class="card" v-if="day != 0">
         <div class="card__title"><span class="card__title__span">{{ paraN[day[0].para] }} пара</span></div>
-        <div class="card__wrapper">
+        <div class="card__wrapper ">
             <span class="card__subject">
                 {{ day[0].subject }}
             </span>
