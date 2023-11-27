@@ -10,7 +10,11 @@ const mode = ref("События");
 <template>
   <div class="header_top">
     <h1>{{ mode }}</h1>
-    <h3>Иван Иванов ИС1.20</h3>
+
+    <div>
+      <img src="./assets/logo.jpg" alt="Avatar" class="avatar" />
+      <h3>Иван И.</h3>
+    </div>
   </div>
 
   <div class="buttons">
@@ -74,15 +78,27 @@ const mode = ref("События");
   justify-content: space-between;
   align-items: center;
 }
-
-.header_top h3 {
-  border-bottom: 1px solid black;
+.header_top h1 {
+  font-size: 29px;
 }
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+.header_top div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border-radius: 20px;
+  padding: 1px 5px;
+}
+.header_top div h3 {
+  font-size: 18px;
+  border-bottom: 1px solid rgb(179, 179, 179);
+}
+.avatar {
+  vertical-align: middle;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 10px;
+  border: 2px solid rgb(105, 105, 105);
 }
 
 .tab {
